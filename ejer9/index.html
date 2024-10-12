@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +9,9 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-
         #notasContainer {
             margin-top: 20px;
         }
-
         .nota {
             background-color: #f0f0f0;
             margin: 10px 0;
@@ -24,23 +21,19 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .nota p {
             margin: 0;
             flex-grow: 1;
         }
-
         .botones {
             display: flex;
             gap: 10px;
         }
-
         .nota.editada {
             background-color: #dff0d8;
         }
     </style>
 </head>
-
 <body>
 
     <h1>Aplicación de Notas</h1>
@@ -51,13 +44,11 @@
     <input type="text" id="buscarNota" placeholder="Buscar nota...">
 
     <div id="notasContainer">
-        <!-- Aquí se mostrarán las notas -->
     </div>
 
-    <script>// Array que almacena todas las notas
+    <script>
         let notas = [];
-
-        // Función para agregar una nueva nota
+        
         function agregarNota() {
             const textoNota = document.getElementById('nuevaNota').value;
             if (textoNota.trim() === '') {
@@ -66,36 +57,35 @@
             }
             const nuevaNota = { id: Date.now(), texto: textoNota, editada: false };
             notas.push(nuevaNota);
-            document.getElementById('nuevaNota').value = '';  // Limpiar el campo de texto
+            document.getElementById('nuevaNota').value = '';  
             mostrarNotas();
         }
-
-        // Función para mostrar las notas en el DOM
+        
         function mostrarNotas(filtradas = notas) {
             const notasContainer = document.getElementById('notasContainer');
-            notasContainer.innerHTML = '';  // Limpiar el contenedor antes de volver a agregar
-
+            notasContainer.innerHTML = '';  
+        
             filtradas.forEach(nota => {
                 const notaDiv = document.createElement('div');
                 notaDiv.classList.add('nota');
                 if (nota.editada) {
                     notaDiv.classList.add('editada');
                 }
-
+        
                 const texto = document.createElement('p');
                 texto.textContent = nota.texto;
-
+        
                 const botonesDiv = document.createElement('div');
                 botonesDiv.classList.add('botones');
-
+        
                 const btnEditar = document.createElement('button');
                 btnEditar.textContent = 'Editar';
                 btnEditar.onclick = () => editarNota(nota.id);
-
+        
                 const btnEliminar = document.createElement('button');
                 btnEliminar.textContent = 'Eliminar';
                 btnEliminar.onclick = () => eliminarNota(nota.id);
-
+        
                 botonesDiv.appendChild(btnEditar);
                 botonesDiv.appendChild(btnEliminar);
                 notaDiv.appendChild(texto);
@@ -103,38 +93,32 @@
                 notasContainer.appendChild(notaDiv);
             });
         }
-
-        // Función para editar una nota
+        
         function editarNota(id) {
             const notaAEditar = notas.find(nota => nota.id === id);
             const nuevoTexto = prompt('Edita la nota:', notaAEditar.texto);
             if (nuevoTexto !== null && nuevoTexto.trim() !== '') {
                 notaAEditar.texto = nuevoTexto;
-                notaAEditar.editada = true;  // Cambiar el estado de editada a true
+                notaAEditar.editada = true;  
                 mostrarNotas();
             }
         }
-
-        // Función para eliminar una nota
+        
         function eliminarNota(id) {
             notas = notas.filter(nota => nota.id !== id);
             mostrarNotas();
         }
-
-        // Función para filtrar notas
+        
         function filtrarNotas() {
             const terminoBusqueda = document.getElementById('buscarNota').value.toLowerCase();
             const notasFiltradas = notas.filter(nota => nota.texto.toLowerCase().includes(terminoBusqueda));
             mostrarNotas(notasFiltradas);
         }
-
-        // Eventos
+        
         document.getElementById('agregarNota').addEventListener('click', agregarNota);
         document.getElementById('buscarNota').addEventListener('input', filtrarNotas);
-
-        // Inicializar mostrando todas las notas
+        
         mostrarNotas();
-    </script>
+        </script>
 </body>
-
 </html>
